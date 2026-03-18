@@ -1,16 +1,32 @@
 import random
+#Diccionario de categorías (clave: nombre, valor: lista de palabras)
+words_by_category ={'programacion': ['python','programa','variable','function','bucle','cadena','entero','lista'], 
+    'animales':['perro','gato','elefante','jirafa','tigre','leon'], 
+    'colores':['rojo','azul','verde','amarillo','violeta','naranja']}
 
-words = [
-    'python',
-    'programa',
-    'variable',
-    'function',
-    'bucle',
-    'cadena',
-    'entero',
-    'lista'
-]
-word = random.choice(words)
+#Mostrar categorías disponibles
+print ('Categorias disponibles')
+for category in words_by_category.keys():
+    print (f'-{category}')
+
+# Pedir entrada al usuario y normalizarla
+chosen_category = input('Elegí una categoría: ').lower().strip()
+
+# Quitar tildes si las hay
+chosen_category = chosen_category.replace('ó', 'o').replace('á', 'a').replace('é', 'e').replace('í', 'i').replace('ú', 'u')
+
+# Validar que exista en el diccionario
+while chosen_category not in words_by_category:
+    print(f"'{chosen_category}' no es una categoría válida.")
+    print("Opciones:", list(words_by_category.keys()))
+    
+    # Pedir de nuevo
+    chosen_category = input('Elegí una categoría: ').lower().strip()
+    chosen_category = chosen_category.replace('ó', 'o').replace('á', 'a').replace('é', 'e').replace('í', 'i').replace('ú', 'u')
+print(f"\n Jugando en categoría: {chosen_category.upper()}")
+word = random.choice (words_by_category[chosen_category])
+print (f'La palabra tiene {len (word)} letras')
+
 guessed=[]
 attempts=6
 
