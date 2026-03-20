@@ -25,15 +25,6 @@ while chosen_category not in words_by_category:
     # Pedir de nuevo
     chosen_category = input('Elegí una categoría: ').lower().strip()
     chosen_category = chosen_category.replace('ó', 'o').replace('á', 'a').replace('é', 'e').replace('í', 'i').replace('ú', 'u')
-# Copiar palabras de la categoría elegida
-available_words= copy.copy(words_by_category[chosen_category])
-
-print (f"\n '{chosen_category}' no es una categoría válida")
-print ('Opciones:', list (words_by_category.keys()))
-
-# Pedir de nuevo
-chosen_category = input('\nElegí una categoría: ').lower().strip()
-chosen_category = chosen_category.replace('ó', 'o').replace('á', 'a').replace('é', 'e').replace('í', 'i').replace('ú', 'u')
 
 # Copiar palabras de la categoría elegida (para no modificar el original)
 available_words = copy.copy(words_by_category[chosen_category])
