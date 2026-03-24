@@ -101,3 +101,65 @@ def registrar_resultado (tabla):
        tabla[visitante]['puntos'] += 1
        print(f"Empate {g_locales}-{g_visitantes}")
 
+#cuarta opción: marcador
+def mostrar_tabla(tabla):
+    if not tabla:
+        print ('No hay equipos en el torneo')
+        return
+    
+    equipos_ordenados = sorted( 
+        tabla.items(), 
+        key=lambda item: (item[1]['puntos'], item[1]['diferencia_de_goles']),
+        reverse=True
+        )
+    print ('\n' + '='*70)
+    print(f"{'Pos':<4} {'Equipo':<15} {'Puntos':<4} {'Partidos Jugados':<3} {'Partidos Ganados':<3} {'Partidos Empatados':<3} {'Partios Perdidos':<3} {'Goles a Favor':<3} {'Goles en Contra':<3} {'Diferencia de Goles':<4}")
+
+    print ('-'*70)
+
+    #mostrar cada equipo
+    for posicion, (nombre, stats) in enumerate (equipos_ordenados, start=1):
+        print(f"{posicion:<4} {nombre:<15} "
+              f"{stats['puntos']:<4} {stats['partidos_jugados']:<3} {stats['partidos_ganados']:<3} "
+              f"{stats['partidos_empatados']:<3} {stats['partidos_perdidos']:<3} {stats['goles_a_favor']:<3} "
+              f"{stats['goles_en_contra']:<3} {stats['diferencia_de_goles']:<4}")
+    print('='*70)
+
+#eliminación de un equipo
+def eliminar_equipo(tabla):
+    nombre= input('Equipo a eliminar: ').strip().title()
+    if nombre not in tabla:
+        print(f'El equipo "{nombre}" no existe')
+        return
+    confirmacion= input(f'¿Seguro que quieres eliminar a {nombre}? (s/n): ').lower()
+    if confirmacion=='s':
+        del tabla[nombre]
+        print(f'Equipo "{nombre}" eliminado' )
+    else:
+        print('Cancelado')
+
+#PROGRAMA PRINCIPAL
+def main():
+    tabla={} #diccionario vacío
+
+    while True:
+        mostrar_menu()
+        opcion= input('\nElegí una opción(1-5): ').strip()
+        
+        if opcion == '1':
+            agregar_equipo(tabla)
+        elif opcion == '2':
+            registrar_resultado(tabla)
+        elif opcion== '3':
+            mostrar_tabla(tabla)
+        elif opcion== '4':
+            eliminar_equipo(tabla)
+        elif opcion == '5':
+            print ('Saliendo del menú')
+            break
+        else:
+            print ('Opcion inválida')
+
+if __name__ == '__main__':
+    main()
+
