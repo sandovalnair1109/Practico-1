@@ -45,4 +45,59 @@ def validar_marcador(marcador):
         return (g_locales,g_visitantes)
     except(ValueError,AttributeError):
         return None
+    #tercera opción: mostrar tabla (registrar resultados visitante)
+def registrar_resultado (tabla):
+    if len(tabla) < 2:
+        print('Necesitas al menos 2 equipos. ')
+        return
+    print("\nEquipos:", list (tabla.keys()))
+
+    local = input('Equipo local: ').strip().title()
+    visitante = input ('Equipo visitante: ').strip().title()
+    marcador=input ('Marcador(formato 4-2):').strip()
+
+    #ver si existen en la tabla
+    if local not in tabla or visitante not in tabla:
+        print ('Uno o ambos equipos no existen')
+        return
+    if local == visitante:
+        print ('No ooueden ser el mismo equipo')
+        return
     
+    resultado= validar_marcador(marcador)
+
+    if resultado is None:
+        print ('Formato inválido. Usá 4-2, 0-0, etc.')
+        return
+    g_locales, g_visitantes = resultado
+    # actualizar estadísticas del LOCAL
+    tabla[local]["partidos_jugados"] += 1
+    tabla[local]["goles_a_favor"] += g_locales
+    tabla[local]["goles_en_contra"] += g_visitantes
+    tabla[local]["diferencia_de_goles"] = tabla[local]["goles_a_favor"] - tabla[local]["goles_en_contra"]
+    
+    #actualizar estadísitcas del visitante
+    tabla[visitante]['partidos_jugados'] += 1
+    tabla[visitante]['goles_a_favor'] += g_visitantes
+    tabla[visitante]['goles_en_contra'] += g_locales
+    tabla[visitante]['diferencia_de_goles']+= tabla[visitante]['goles_a_favor'] -  tabla[visitante]['goles_en_contra']
+
+    #calcular puntos según resultado
+    if g_locales> g_visitantes:
+        tabla[local]['partidos_ganados']+=1
+        tabla[local]['puntos']+=3
+        tabla[visitante]['partidos_perdidos']+=1
+        print (f"{local} ganó {g_locales}-{g_visitantes}")
+
+    elif g_locales<g_visitantes:
+        tabla[visitante]['partidos_ganados']+=1
+        tabla[visitante]['puntos']+=3
+        tabla[local]['partidos_perdidos']+=1
+        print (f'Empate {g_locales}-{g_visitantes}')
+    else:
+       tabla[local]['partidos_empatados'] += 1
+       tabla[local]['puntos'] += 1
+       tabla[visitante]['partidos_empatados'] += 1
+       tabla[visitante]['puntos'] += 1
+       print(f"Empate {g_locales}-{g_visitantes}")
+
